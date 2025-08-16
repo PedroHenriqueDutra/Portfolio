@@ -1,4 +1,50 @@
 //backend/routes/usuarioRoutes.js
 const express = require('express');
-const Usuario = require('../models/usuario.js');
+const Usuario = require('../models/usuario');
 const router = express.Router();
+
+router.post('/usuarios', async (requestAnimationFrame,res) =>{
+    const {nome, idade, email, endereco, acompanhado, ultimoBeneficio} = requestAnimationFrame.body;
+    const novoUsuario = new Usuario({
+        nome,
+        idade,
+        email,
+        endereco,
+        acompanhado,
+        ultimoBeneficio
+    });
+    
+    try{
+        const usuarioSalvo = await novoUsuario.save();
+        res.status(201).json(usuarioSalvo)
+    }catch{
+        res.status(400).json({erro: `Erro ao criar usuário ${erro}`})
+    }
+})
+
+
+//lsitar todos os usuarios
+router.get('/usuarios', async (req,res)=>{
+    try{
+        const usuarios= await Usuario.find();
+        res.status(200).json(usuarios);
+    }catch(erro){
+        res.status(500).json({
+            erro: `Erro ao buscar usuários ${erro}`
+        })
+    }
+})
+
+router.delete('/usuarios/:id', async (req, res) => {
+  try {
+    const usuarioDeletado = await Usuario.findByIdAndDelete(req.params.id);
+
+    if (!usuarioDeletado) {
+      return res.status(404).json({ error: 'Usuário não encontrado' });
+    }
+
+    res.status(200).json({ message: 'Usuário deletado com sucesso' });
+  } catch (erro) {
+    res.status(500).json({ error: 'Erro ao deletar usuário' });
+  }
+});
