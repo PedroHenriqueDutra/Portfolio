@@ -48,3 +48,6 @@ router.delete('/usuarios/:id', async (req, res) => {
     res.status(500).json({ error: 'Erro ao deletar usuário' });
   }
 });
+
+//exportando as rotas
+module.exports = router

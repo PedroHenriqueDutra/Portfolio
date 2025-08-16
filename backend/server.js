@@ -2,7 +2,6 @@
 const mongoose = require('mongoose');
 const express = require('express');
 const path = require('path');
-const bodyParse = require('body-parser');
 const credenciais = require('./credenciais.json');
 const usuarioRoutes = require('./routers/usuarioRoutes');
 
@@ -27,6 +26,7 @@ const conection = mongoose.connect(`mongodb://${credenciais.MONGO_USER}:${creden
 
 // Middleware para ler o corpo da requisição em JSON
 app.use(express.json());
+app.use('/api', usuarioRoutes)
 
 // Servindo arquivos estáticos do frontend
 app.use(express.static(path.join(__dirname, '../frontend')));
