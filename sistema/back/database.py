@@ -1,4 +1,7 @@
 import sqlite3
+import Flask
+from werkzeug.security import generate_password_hash, check_password_hash
+
 
 DB_NAME = "solo.db"
 
@@ -19,6 +22,15 @@ def init_db():
     cursor = conn.cursor()
 
     cursor.execute("""
+    CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        email TEXT UNIQUE NOT NULL,
+        password TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+""")
+
+    cursor.execute("""
         CREATE TABLE IF NOT EXISTS player (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             level INTEGER NOT NULL,
@@ -30,7 +42,37 @@ def init_db():
     conn.commit()
     conn.close()
 
+#Cria o usuário na tabela user
 
+def create_user(email, password):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    hashed_password = generate_password_hash(password)
+
+    try:
+        cursor.execute("""
+            INSERT INTO users (email, password)
+            VALUES (?, ?)
+        """, (email, hashed_password))
+        conn.commit()
+    except sqlite3.IntegrityError:
+        conn.close()
+        return None
+
+    conn.close()
+    return True
+
+
+def get_player():
+    conn = get_connection()
+    cursor= conn.cursor()
+    cursor.execute("""
+        SELECT * FROM player LIMIT 1
+""")
+    player = cursor.fetchone()
+    conn.close()
+    return player
 def create_player(level, xp, points):
     conn = get_connection()
     cursor = conn.cursor()
@@ -52,7 +94,7 @@ def get_player():
 
     conn.close()
     return player
-
+#rota para o update, como já estamos atualizando pelo add_cp não precisa na verdade daria falha 
 def update_player(level, xp, points):
     conn = get_connection()
     cursor = conn.cursor()
