@@ -26,11 +26,11 @@ const conection = mongoose.connect(`mongodb://${credenciais.MONGO_USER}:${creden
 
 // Middleware para ler o corpo da requisição em JSON
 app.use(express.json());
-app.use('/api', usuarioRoutes)
-
+app.use('/api', usuarioRoutes);
+/*
 // Servindo arquivos estáticos do frontend
 app.use(express.static(path.join(__dirname, '../frontend')));
-
+*/
 // Rota simples
 app.get('/api', (req, res) => {
   res.json({ message: "Olá do backend!" });

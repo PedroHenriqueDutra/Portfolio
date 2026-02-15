@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solo Leveling - Professional System</title>
+
+<!--
+=====================================================
+SOLO LEVELING - GAMIFIED TASK SYSTEM (FRONTEND ONLY)
+=====================================================
+Arquitetura pensada para futura integração com backend.
+Código comentado profissionalmente para estudo.
+
+Estrutura:
+- UI System Core
+- Player State
+- Mission Engine
+- Rank System
+- Persistence (LocalStorage temporário)
+- Backend Integration (comentado para futuro uso)
+=====================================================
+-->
+
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+</head>
+<body>
+
+<h1>HUNTER SYSTEM</h1>
+
+<div class="container">
+
+    <!-- ================= PLAYER STATUS CARD ================= -->
+    <div class="card">
+        <h3>Status</h3>
+        <div>Level: <span id="level"></span></div>
+        <div class="rank" id="rank"></div>
+
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+
+        <div id="xpInfo"></div>
+        <div>Points: <span id="points"></span></div>
+    </div>
+
+    <!-- ================= MISSIONS CARD ================= -->
+    <div class="card">
+        <h3>Missions</h3>
+        <div id="missionList"></div>
+    </div>
+
+    <div class="card">
+        <button>Shadow Shop</button>
+    </div>
+
+</div>
+
+</body>
+</html>

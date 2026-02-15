@@ -49,5 +49,24 @@ router.delete('/usuarios/:id', async (req, res) => {
   }
 });
 
+// Rota para deletar todos os usuários
+router.delete('/usuarios/limpar', async (req, res) => {
+  try {
+    // Deletando todos os registros da coleção de usuários
+    const result = await Usuario.deleteMany({});
+    
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ message: "Nenhum usuário encontrado para deletar." });
+    }
+
+    // Retornando sucesso
+    res.status(200).json({ message: `${result.deletedCount} usuário(s) deletado(s) com sucesso.` });
+  } catch (err) {
+    // Caso ocorra algum erro
+    console.error('Erro ao tentar deletar os usuários:', err);  // Log do erro detalhado
+    res.status(500).json({ message: `Erro ao tentar limpar os dados: ${err}`, error: err.message });
+  }
+});
+
 //exportando as rotas
 module.exports = router
